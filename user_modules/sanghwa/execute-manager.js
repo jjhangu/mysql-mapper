@@ -1,20 +1,27 @@
 /**
  * Created by ddavid on 2015-08-06.
  */
-var dbCon= require("./dbcon");
+
 var queryStorage= require('./query-storage');
 var queryParser= require('./query-parser');
+var dbCon = null;
+
 
 var ExecuteManager = function(){
 };
-ExecuteManager.prototype.start = function (res, tasks, isTransaction, model ){
+
+ExecuteManager.prototype.setPool = function(pool){
+    dbCon = pool;
+}
+
+ExecuteManager.prototype.start = function (res, taskContext, isTransaction, model ){
     if(isTransaction){
         console.log('transaction true');
-        this.executeTransaction(res, tasks);
+        this.executeTransaction(res, taskContext);
     }else{
         console.log('transaction false');
         // request start
-        this.execute(res, tasks);
+        this.execute(res, taskContext);
     }
 }
 
@@ -22,19 +29,31 @@ ExecuteManager.prototype.start = function (res, tasks, isTransaction, model ){
  * Trasaction Task Run
  * @param tasks
  */
-ExecuteManager.prototype.executeTransaction = function(res, tasks){
+ExecuteManager.prototype.executeTransaction = function(res, taskContext){
+
     dbCon.getConnection(function (err, connection) {
+        console.log("free " + dbCon._freeConnections.length);
+        console.log("all " + dbCon._allConnections.length);
+        for(var i=0; i<dbCon._allConnections.length; i++){
+            //console.log(dbCon._allConnections[i].threadId);
+        }
+
+
+
+        console.log('connction');
+
+        console.error('connected as id ' + connection.threadId);
         if (err) {
             connection.release();
             res.json({"code": 100, "status": "Error in connection database"});
             return;
         }
-        if(tasks.length>0){
+        if(taskContext.tasks.length>0){
             connection.beginTransaction(function(err) {
-                if(tasks.length>0){
+                if(taskContext.tasks.length>0){
                     // query를 날리지요
                     try{
-                        executeManager.query(res, connection , tasks, true );
+                        executeManager.query(res, connection ,taskContext, true );
                     }catch(e){
                         connection.rollback(function() {
                             console.error("commit error");
@@ -58,7 +77,7 @@ ExecuteManager.prototype.executeTransaction = function(res, tasks){
  * @param res
  * @param tasks
  */
-ExecuteManager.prototype.execute = function(res, tasks){
+ExecuteManager.prototype.execute = function(res, taskContext){
     dbCon.getConnection(function (err, connection) {
 
         if (err) {
@@ -67,10 +86,10 @@ ExecuteManager.prototype.execute = function(res, tasks){
             return;
         }
 
-        if(tasks.length>0){
+        if(taskContext.tasks.length>0){
             // Send Query
             try{
-                executeManager.query(res, connection , tasks , false);
+                executeManager.query(res, connection , taskContext , false);
             }catch(e){
                 console.log(e);
             }
@@ -85,11 +104,13 @@ ExecuteManager.prototype.execute = function(res, tasks){
     });
 };
 
-ExecuteManager.prototype.query = function(res, connection, tasks, isTransaction){
+ExecuteManager.prototype.query = function(res, connection, taskContext, isTransaction){
     // get
-    if(tasks.length> 0){
+
+
+    if(taskContext.tasks.length> 0){
         // to use queue
-        var task = tasks.shift();
+        var task = taskContext.tasks.shift();
         //console.time(tasks.length);
         var query = executeManager.getQuery(task);
         //console.timeEnd(tasks.length);
@@ -98,11 +119,11 @@ ExecuteManager.prototype.query = function(res, connection, tasks, isTransaction)
 
         connection.query(query
             , function (err, rows) {
-                console.timeEnd("query"+tasks.length);
-                console.log(rows);
+
+                //console.log(rows);
                 if (!err) {
                     //res.json(list);
-                        if(tasks.length> 0){
+                        if(taskContext.tasks.length> 0){
                             if(task.callback != null) {
                                 try{
                                     task.callback(rows);
@@ -119,7 +140,7 @@ ExecuteManager.prototype.query = function(res, connection, tasks, isTransaction)
                                     }
                                 }
                             }
-                            executeManager.query(res, connection, tasks, isTransaction);
+                            executeManager.query(res, connection, taskContext, isTransaction);
                         }else{
                             // if every task finish successfully
                             if(isTransaction){
@@ -131,7 +152,7 @@ ExecuteManager.prototype.query = function(res, connection, tasks, isTransaction)
                                     }
                                     console.log('Transaction Complete.');
                                     connection.release();
-                                    res.send('completely finish inserts');
+                                    res.json(taskContext.model);
                                 });
                             }else{
                                 connection.release();
@@ -163,15 +184,15 @@ ExecuteManager.prototype.getQuery = function (task){
     var filed = task.filed;
 
     var query = queryStorage.queryMap[queryMenu][queryId];
-    console.log("queryMenu : " + queryMenu);
-    console.log("queryId : " + queryId);
-    console.log("query: " + query);
-    console.log("filed : " + filed);
+    //console.log("queryMenu : " + queryMenu);
+    //console.log("queryId : " + queryId);
+    //console.log("query: " + query);
+    //console.log("filed : " + filed);
 
     var query  = queryParser.parsingQuery(query, filed);
-    console.log("null filtered query: " + query);
+    //console.log("null filtered query: " + query);
     query = queryParser.replacingQuery(query, filed);
-    console.log("changed query: " + query);
+    //console.log("changed query: " + query);
     return query;
 };
 

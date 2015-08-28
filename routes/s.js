@@ -109,21 +109,57 @@ router.get('/query/test5', function(req, res, next) {
 
 
 router.get('/query/rollback/test5', function(req, res, next) {
-  var tasks = taskM.makeTasks();
+  var taskContext= taskM.makeTasks();
   var field = {'content': 'yaho'};
 
-  tasks.push(taskM.getTask('test.insert_tb_board', field, function(result){}));
-  tasks.push(taskM.getTask('test.insert_tb_board_reply', field, function(result){
+  taskContext.tasks.push(taskM.getTask('test.insert_tb_board', field, function(result){}));
+  taskContext.tasks.push(taskM.getTask('test.insert_tb_board_reply', field, function(result){
     console.log('lastInsertId : ' + result.insertId);
-    throw new Error('강제발생');
     for(var i=0; i<4; i++){
-      //tasks.push(taskM.getTask('test.insert_tb_board', field));  // tasks의 마지막에 쿼리를 추가
-      tasks.unshift(taskM.getTask('test.insert_tb_board', field)); // tasks의 처음에 쿼리를 추가
+      taskContext.tasks.unshift(taskM.getTask('test.insert_tb_board', field)); // tasks의 처음에 쿼리를 추가
     }
   }));
-  tasks.push(taskM.getTask('test.select_tb_board_reply', field, function(result){}));
+  taskContext.tasks.push(taskM.getTask('test.select_tb_board_reply', field, function(result){}));
 
-  executeManager.start(res, tasks, true);
+  setTimeout(function(){
+    executeManager.start(res, taskContext, true);
+  }, 0);
+
+});
+
+router.get('/query/rollback/select', function(req, res, next) {
+  var taskContext= taskM.makeTasks();
+  var field = {'content': 'yaho'};
+
+   taskContext.tasks.push(taskM.getTask('test.select_tb_board_reply', field, function(result){}));
+
+  setTimeout(function(){
+    executeManager.start(res, taskContext, true);
+  }, 0);
+
+});
+
+router.get('/query/rollback/3', function(req, res, next) {
+  var taskContext= taskM.makeTasks();
+  var field = {'content': 'yaho'};
+
+  taskContext.tasks.push(taskM.getTask('test.insert_tb_board', field, function(result){}));
+  taskContext.tasks.push(taskM.getTask('test.insert_tb_board_reply', field, function(result){
+    console.log('lastInsertId : ' + result.insertId);
+    for(var i=0; i<4; i++){
+      taskContext.tasks.unshift(taskM.getTask('test.insert_tb_board', field)); // tasks의 처음에 쿼리를 추가
+    }
+  }));
+  taskContext.tasks.push(taskM.getTask('test.select_tb_board_reply', field, function(result){}));
+
+
+  executeManager.start(res, taskContext, true);
+
+
+});
+
+router.get('/query/rollback/test51', function(req, res, next) {
+  res.send("target is good");
 });
 
 router.get('/nottransactionTest/queryparser', function(req, res, next) {

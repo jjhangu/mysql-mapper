@@ -14,9 +14,11 @@ taskManager.prototype.getTask = function(queryId, filed, callback, testQuery){
     return task;
 }
 
+taskManager.prototype.tasks = [];
+
 // task 를 만든다.
 taskManager.prototype.makeTasks = function(){
-    return [];
+    return {'tasks' : [], 'model' : {'status' : 0}};
 }
 
 module.exports = new taskManager();

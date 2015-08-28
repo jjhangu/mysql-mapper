@@ -25,4 +25,5 @@
 	[board_seq]
        	and board_seq = '#board_seq'
 	[/]
+	limit 0, 100
 {/}

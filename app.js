@@ -11,9 +11,15 @@ var d = require('./routes/d');
 var s = require('./routes/s');
 var m = require('./routes/m');
 
-var queryParser= require('./user_modules/sanghwa/query-parser');
-queryParser.start(['test']);
 
+
+var dbCon = require("./user_modules/common/dbcon");
+
+// Parsing Query and Store queries in query storage
+var mysqlMapper= require('./user_modules/sanghwa/mysql-mapper');
+mysqlMapper.setPool(dbCon);
+mysqlMapper.setPath("query");
+mysqlMapper.parsingStart(['test']);
 
 var app = express();
 
@@ -28,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'query')));
+//app.use(express.static(path.join(__dirname, 'query')));
 
 app.use('/', routes);
 app.use('/users', users);

@@ -4,11 +4,18 @@
 var queryStorage     =    require('./query-storage');
 
 var qp = function(){
+
+    this.prePath = 'query';
+
+    this.setPath = function(prePath){
+        this.prePath = prePath;
+    }
+
     this.start = function (arr){
         for(var i =0; i<arr.length; i++){
             var fileName = arr[i];
             var fs = require('fs');
-            var data = fs.readFileSync('query/'+ fileName, 'utf8');
+            var data = fs.readFileSync(this.prePath+'/'+ fileName, 'utf8');
 
             this.parsing(data);
         }
