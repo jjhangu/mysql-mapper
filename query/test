@@ -1,0 +1,28 @@
+-- insert board topic
+{test:insert_tb_board}
+	INSERT INTO `node`.`tb_board`
+		(CONTENT)
+	VALUES
+		('#content')
+{/}
+
+-- insert reply of board topic
+{test:insert_tb_board_reply}
+	INSERT INTO `node`.`tb_board_reply`
+		(`CONTENT`,  `BOARD_SEQ`)
+	VALUES
+		('data2', 6)
+{/}
+
+-- select board_reply
+{test:select_tb_board_reply}
+	select * from  tb_board
+	where
+		1=1
+	[content]
+		and content = '#content'
+	[/]
+	[board_seq]
+       	and board_seq = '#board_seq'
+	[/]
+{/}
