@@ -27,3 +27,7 @@
 	[/]
 	limit 0, 100
 {/}
+
+{test:select_sleep}
+	select sleep(10)
+{/}

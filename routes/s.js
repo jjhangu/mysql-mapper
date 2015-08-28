@@ -139,6 +139,18 @@ router.get('/query/rollback/select', function(req, res, next) {
 
 });
 
+
+router.get('/query/rollback/select2', function(req, res, next) {
+  var taskContext= taskM.makeTasks();
+  var field = {'content': 'yaho'};
+
+  taskContext.tasks.push(taskM.getTask('test.select_sleep', field, function(result){}));
+
+  executeManager.start(res, taskContext, true);
+
+
+});
+
 router.get('/query/rollback/3', function(req, res, next) {
   var taskContext= taskM.makeTasks();
   var field = {'content': 'yaho'};
@@ -154,8 +166,6 @@ router.get('/query/rollback/3', function(req, res, next) {
 
 
   executeManager.start(res, taskContext, true);
-
-
 });
 
 router.get('/query/rollback/test51', function(req, res, next) {
