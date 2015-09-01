@@ -9,11 +9,9 @@
 
 0.0.1 beta version
 
-This is a node.js driver for mysql + pool + transaction + mapper pattern 
-and is 100% MIT licensed.
-very easy usage and powerful.
+This is a node.js driver for mysql + pool + transaction + mapper pattern.
+it has very easy usage and powerful.
 this library updates continuously.
-
 
 Here is an example on how to use it:
 
