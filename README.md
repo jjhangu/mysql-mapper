@@ -1,8 +1,8 @@
 # mysql-mapper
 
 - [Introduction](#introduction)
-- [Query file](#query file)
-- [Sample API](#sample API)
+- [Queryfile](#queryfile)
+- [SampleAPI](#sampleAPI)
 
 
 ## Introduction
@@ -59,7 +59,7 @@ router.get('/query/test', function(req, res, next) {
 
 ```
 
-## Query file
+## Queryfile
 
 this show how to write querys
 
@@ -102,7 +102,7 @@ this show how to write querys
 
 ```
 
-## Sample API
+## SampleAPI
 
 it is working by this step in one cycle
 
