@@ -5,6 +5,8 @@
 
 ## Introduction
 
+0.0.1 beta version
+
 This is a node.js driver for mysql + pool + transaction + mapper pattern 
 and is 100% MIT licensed.
 very easy usage and powerful.
@@ -59,6 +61,10 @@ router.get('/query/test', function(req, res, next) {
 
 this show how to write querys
 
+- `{cate:id} query {/}` - this tag is categoryname and id of query, start and end of query
+- `[name][/]`           - if it exist. check if variable name is null
+- `#name`               - variable data of name is into #name 
+
 ```
 {test:insert_tb_board}
 	INSERT INTO `node`.`tb_board`
@@ -91,5 +97,36 @@ this show how to write querys
 	select sleep(10)
 {/}
 
+
+```
+
+## Sample
+
+```js
+//make Task Queue
+var taskContext= taskM.makeTasks();
+
+// make data field mapped with query (#tag)
+var field = {'content': 'yaho'};
+
+// make task
+var task = taskM.getTask('test.insert_tb_board', field);
+
+// make task with callback
+task = taskM.getTask('test.insert_tb_board', field, function(){
+	alert('test.insert_tb_board finished'); 
+	// this is called after test.insert_tb_board executed
+});
+
+// insert task into queue
+taskContext.tasks.push(task);
+
+// insert queue 
+
+// start Task Queue with transaction off
+executeManager.start(res, tasks, false);
+
+// start Task Queue with transaction on
+executeManager.start(res, tasks, true);
 
 ```
