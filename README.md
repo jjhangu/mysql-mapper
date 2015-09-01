@@ -28,8 +28,8 @@ pool      =    mysql.createPool({
 
 var mysqlMapper= require('./user_modules/sanghwa/mysql-mapper');
 mysqlMapper.setPool(pool);
-mysqlMapper.setPath("query");
-mysqlMapper.parsingStart(['test']);
+mysqlMapper.setPath("query");  // folder path of queries.
+mysqlMapper.parsingStart(['test']); // query files arrays
 
 
 
