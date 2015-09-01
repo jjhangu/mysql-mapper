@@ -128,8 +128,6 @@ task = taskM.getTask('test.insert_tb_board', field, function(){
 // insert task into queue
 taskContext.tasks.push(task);
 
-// insert queue 
-
 // start Task Queue with transaction off
 executeManager.start(res, tasks, false);
 
