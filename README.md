@@ -100,7 +100,14 @@ this show how to write querys
 
 ```
 
-## Sample
+## Sample API
+
+it is working by this step in one cycle
+
+- Make TaskQueue
+- Make Task
+- Start TaskQueue
+
 
 ```js
 //make Task Queue
