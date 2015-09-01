@@ -27,7 +27,7 @@ pool      =    mysql.createPool({
 });
 
 var mysqlMapper= require('./user_modules/sanghwa/mysql-mapper');
-mysqlMapper.setPool(dbCon);
+mysqlMapper.setPool(pool);
 mysqlMapper.setPath("query");
 mysqlMapper.parsingStart(['test']);
 
