@@ -1,6 +1,8 @@
 # mysql-mapper
 
 - [Introduction](#introduction)
+- [Query file](#query file)
+- [Sample API](#sample API)
 
 
 ## Introduction
