@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Queryfile](#queryfile)
-- [SampleAPI](#sampleAPI)
+- [SampleAPI](#SampleAPI)
 
 
 ## Introduction
