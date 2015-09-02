@@ -9,6 +9,9 @@
 
 0.0.1 beta version
 
+this project is sample project and real library folder is **user_modules/sanghwa/mysql-mapper**
+
+
 This is a node.js driver for mysql + pool + transaction + mapper pattern.
 it has very easy usage and powerful.
 this library updates continuously.
