@@ -37,11 +37,7 @@ ExecuteManager.prototype.executeTransaction = function(res, taskContext){
         for(var i=0; i<dbCon._allConnections.length; i++){
             //console.log(dbCon._allConnections[i].threadId);
         }
-
-
-
         console.log('connction');
-
         console.error('connected as id ' + connection.threadId);
         if (err) {
             connection.release();
@@ -79,7 +75,6 @@ ExecuteManager.prototype.executeTransaction = function(res, taskContext){
  */
 ExecuteManager.prototype.execute = function(res, taskContext){
     dbCon.getConnection(function (err, connection) {
-
         if (err) {
             console.log(err);
             res.json({"code": 100, "status": "Error in connection database"});
@@ -105,9 +100,7 @@ ExecuteManager.prototype.execute = function(res, taskContext){
 };
 
 ExecuteManager.prototype.query = function(res, connection, taskContext, isTransaction){
-    // get
-
-
+   // get
     if(taskContext.tasks.length> 0){
         // to use queue
         var task = taskContext.tasks.shift();

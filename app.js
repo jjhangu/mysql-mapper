@@ -13,11 +13,11 @@ var m = require('./routes/m');
 
 
 
-var dbCon = require("./user_modules/common/dbcon");
+var pool = require("./user_modules/common/dbcon");
 
 // Parsing Query and Store queries in query storage
 var mysqlMapper= require('./user_modules/sanghwa/mysql-mapper');
-mysqlMapper.setPool(dbCon);
+mysqlMapper.setPool(pool);
 mysqlMapper.setPath("query");
 mysqlMapper.parsingStart(['test']);
 

@@ -21,6 +21,9 @@ var qp = function(){
         }
     }
 
+    /**
+     * divding queries by Category name, id
+     */
     this.parsing = function (data){
 
         var map = [];
@@ -88,6 +91,9 @@ var qp = function(){
     },
 
 
+    /**
+     * filtering query if it exist finding [] [/] tags
+     */
     this.parsingQuery = function(data, filed){
         var startIndex = -1;
         var endIndex = -1;
@@ -154,6 +160,10 @@ var qp = function(){
         return realQuery;
     },
 
+
+    /**
+     * this replace #variable with real value
+    */
     this.replacingQuery = function(data, filed){
         var realQuery = '';
         var currentIndex =0;
