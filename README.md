@@ -116,9 +116,6 @@ this library provide comments start with //
 {test:select_sleep}
 	select sleep(10)
 {/}
-
-
-
 ```
 
 
