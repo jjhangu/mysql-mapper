@@ -3,7 +3,8 @@
 		(CONTENT)
 	VALUES
 		('#content')
-{/}
+{/}-- dafadsf
+--asdfkasjdfk
 
 {test:insert_tb_board_reply}
 	INSERT INTO `node`.`tb_board_reply`
@@ -13,7 +14,7 @@
 {/}
 
 {test:select_tb_board_reply}
-	select * from  tb_board
+	select * from  tb_board  --이런것도?
 	where
 		1=1
 	[content]
@@ -24,7 +25,7 @@
 	[/]
 	limit 0, 100
 {/}
-
+--
 {test:select_sleep}
 	select sleep(10)
-{/}
+{/}--

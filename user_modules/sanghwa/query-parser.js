@@ -37,7 +37,13 @@ var qp = function(){
         var lastStartIndex = -1;
         var lastEndIndex = -1;
 
+        // remove comment
+        console.log('comment : ' + data);
+        data = this.removeComment(data);
+        console.log('removed comment : ' + data);
+
         for(var i = 0;i < data.length;i++){
+
             if(startIndex == -1){
                 if(data[i] == '{'){
                     startIndex = i;
@@ -82,7 +88,7 @@ var qp = function(){
 
                         continue;
                     }else{
-                        console.log('error');
+                        console.log('Query grammar is not proper');
                     }
                 }
             }
@@ -204,6 +210,44 @@ var qp = function(){
         realQuery += data.substring(currentIndex, data.length);
         //console.log('real : ' + realQuery);
         return realQuery;
+    }
+
+    /**
+     * remove comment    style is --
+     * @param data
+     * @returns {*}
+     */
+    this.removeComment = function(data){
+        var dataNew = '';
+        var startIndex =0;
+
+
+        for(var i=0; i<data.length; i++){
+
+            if(data[i] == '-'){
+                if(i+1< data.length && data[i+1] == '-'){
+                    dataNew += data.substring(startIndex, i);
+                    // 주석이라는 말, 이전까지의 데이터를 dataNew에 더한다
+                    i= i+2;
+
+                    if(i>=data.length){
+                        startIndex = i;
+                    }else{
+                        while(i<data.length){
+                            if(data[i] =='\n' || data[i] == '\r' || data[i] == '\r\n') {  // newline
+                                startIndex = i;
+                                break;
+                            }
+                            startIndex = i;
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+
+        dataNew += data.substring(startIndex,  data.length);
+        return dataNew;
     }
 };
 module.exports = new qp();
