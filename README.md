@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Queryfile](#queryfile)
+- [Comment](#comment)
 - [SampleAPI](#sampleapi)
 
 
@@ -102,6 +103,24 @@ this show how to write querys
 
 
 ```
+
+## Comment
+
+like javascript 
+this library provide comments start with //
+
+``` 
+// in query files
+
+// this is line comment
+{test:select_sleep}
+	select sleep(10)
+{/}
+
+
+
+```
+
 
 ## SampleAPI
 
