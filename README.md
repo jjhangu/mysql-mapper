@@ -117,7 +117,32 @@ this library provide comments start with //
 	select sleep(10)
 {/}
 ```
+## NullCheck and DataBind
 
+``` 
+// in query files
+
+select * from tb_user
+where user_is ='id'
+[user_name]
+  and user_name ='#user_name'
+[/]
+```
+
+
+## List
+
+First @varibale name, Second @Seperator
+
+``` 
+select * from tb_user
+where 
+user_id in(
+[@ids@,]
+   user_id ='#user_id'
+[/]
+)
+```
 
 ## SampleAPI
 
