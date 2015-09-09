@@ -134,7 +134,7 @@ where user_is ='id'
 
 First @varibale name, Second @Seperator
 
-``` 
+```sql 
 select * from tb_user
 where 
 user_id in(
