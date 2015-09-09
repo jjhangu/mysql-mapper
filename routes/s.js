@@ -110,15 +110,15 @@ router.get('/query/test5', function(req, res, next) {
 
 router.get('/query/rollback/test5', function(req, res, next) {
   var taskContext= taskM.makeTasks();
-  var field = {'content': 'yaho'};
+  var field = {'content': 'yaho', 'array':['a', 'b', 'c']};
 
-  taskContext.tasks.push(taskM.getTask('test.insert_tb_board', field, function(result){}));
-  taskContext.tasks.push(taskM.getTask('test.insert_tb_board_reply', field, function(result){
-    console.log('lastInsertId : ' + result.insertId);
-    for(var i=0; i<4; i++){
-      taskContext.tasks.unshift(taskM.getTask('test.insert_tb_board', field)); // tasks의 처음에 쿼리를 추가
-    }
-  }));
+  //taskContext.tasks.push(taskM.getTask('test.insert_tb_board', field, function(result){}));
+  //taskContext.tasks.push(taskM.getTask('test.insert_tb_board_reply', field, function(result){
+  //  console.log('lastInsertId : ' + result.insertId);
+  //  for(var i=0; i<4; i++){
+  //    taskContext.tasks.unshift(taskM.getTask('test.insert_tb_board', field)); // tasks의 처음에 쿼리를 추가
+  //  }
+  //}));
   taskContext.tasks.push(taskM.getTask('test.select_tb_board_reply', field, function(result){}));
 
   setTimeout(function(){

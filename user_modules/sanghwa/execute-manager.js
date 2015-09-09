@@ -183,9 +183,9 @@ ExecuteManager.prototype.getQuery = function (task){
     //console.log("filed : " + filed);
 
     var query  = queryParser.parsingQuery(query, filed);
-    //console.log("null filtered query: " + query);
+    console.log("null filtered query: " + query);
     query = queryParser.replacingQuery(query, filed);
-    //console.log("changed query: " + query);
+    console.log("changed query: " + query);
     return query;
 };
 

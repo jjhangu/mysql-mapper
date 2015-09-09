@@ -73,6 +73,8 @@ var qp = function(){
                         var id = data.substring(colonIndex+1, endIndex).trim();
                         var content  = data.substring(endIndex+1, lastStartIndex).trim();
 
+                        console.log(menu);
+
                         if(queryStorage.queryMap[menu] == null){
                             queryStorage.queryMap[menu] = [];
                         }
@@ -104,6 +106,9 @@ var qp = function(){
         var startIndex = -1;
         var endIndex = -1;
 
+        // 다음내용이 list 인지 체크
+        var isList = false;
+
         var lastStartIndex = -1;
         var lastEndIndex = -1;
 
@@ -111,9 +116,13 @@ var qp = function(){
 
         var realQuery = '';
 
+        console.log(data);
         for(var i = 0;i < data.length;i++){
             if(startIndex == -1){
                 if(data[i] == '['){
+                    if(data[i+1] =='@' ){
+                        isList = true;
+                    }
                     startIndex = i;
                     realQuery += data.substring(currentPosition, i);
                 }
@@ -136,13 +145,40 @@ var qp = function(){
                         //console.log(data.substring(startIndex+1, endIndex));
                         //console.log(data.substring(endIndex+1, lastStartIndex));
 
-                        var checkVal = data.substring(startIndex+1, endIndex);
 
+
+
+
+                            if(isList){
+                                var checkVal = data.substring(startIndex+2, endIndex);
+                                var seperator = checkVal.substring(checkVal.lastIndexOf('@')+1, data.length);
+                                checkVal = checkVal.substring(0, checkVal.indexOf('@'));
+
+                                if(filed[checkVal] != null){
+
+                                var array = filed[checkVal];
+                                if(array instanceof Array){
+                                    var middleData = data.substring(endIndex+1, lastStartIndex);
+                                    for(var k=0; k<array.length; k++){
+                                        var indexData = array[k];
+                                        var subField = [];
+                                        subField[checkVal] = indexData;
+                                        realQuery +=  this.replacingQuery(middleData, subField);
+                                        if(k != array.length-1){
+                                            realQuery += seperator;
+                                        }
+                                    }
+                                }else{
+                                    console.log('this is not array instacne');
+                                }
+                            }
+                        }else{
                         // 만약에 null 이면 모두 짜른다
-                        if(filed[checkVal] != null){
-                            realQuery += data.substring(endIndex+1, lastStartIndex);
+                             var checkVal = data.substring(startIndex+1, endIndex);
+                            if(filed[checkVal] != null){
+                                realQuery += data.substring(endIndex+1, lastStartIndex);
+                            }
                         }
-
                         // 초기화
                         startIndex = -1;
                         endIndex = -1;
@@ -151,6 +187,7 @@ var qp = function(){
                         lastEndIndex = -1;
 
                         currentPosition = i+2;
+                        isList = false;
                         continue;
                     }else{
                         console.log('error');
@@ -180,7 +217,7 @@ var qp = function(){
                 realQuery += data.substring(currentIndex, i);
                 while(true){
                     i++;
-                    if(data[i] =="'" || data[i] ==' '){
+                    if(data[i] =="'" || data[i] ==' ' ||data[i] == '\n' || data[i] =='\t'){
                         var key = data.substring(startIndex, i);
                         //console.log("realQuery  before: " + realQuery);
                         //console.log("key : " + key);
