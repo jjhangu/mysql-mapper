@@ -4,6 +4,7 @@
 - [Queryfile](#queryfile)
 - [Comment](#comment)
 - [SampleAPI](#sampleapi)
+- [List](#list)
 
 
 ## Introduction
@@ -118,6 +119,8 @@ this library provide comments start with //
 {/}
 ```
 ## NullCheck and DataBind
+null check tag is very easy 
+ex) [{name}]  query  [/]
 
 ``` 
 // in query files
@@ -131,7 +134,7 @@ where user_is ='id'
 
 
 ## List
-
+this provide list type (array)
 First @varibale name, Second @Seperator
 
 ```sql 
